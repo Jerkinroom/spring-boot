@@ -194,21 +194,21 @@ public class SpringApplication {
 	private boolean addConversionService = true;
 
 	private Banner banner;
-
+	//类加载器
 	private ResourceLoader resourceLoader;
-
+	//Bean名称生成器
 	private BeanNameGenerator beanNameGenerator;
-
+	//环境信息
 	private ConfigurableEnvironment environment;
-
+	//web容器类型
 	private WebApplicationType webApplicationType;
 
 	private boolean headless = true;
 
 	private boolean registerShutdownHook = true;
-
+	//执行initializer的方法
 	private List<ApplicationContextInitializer<?>> initializers;
-
+	//执行监听器
 	private List<ApplicationListener<?>> listeners;
 
 	private Map<String, Object> defaultProperties;
@@ -260,11 +260,16 @@ public class SpringApplication {
 		this.resourceLoader = resourceLoader;
 		Assert.notNull(primarySources, "PrimarySources must not be null");
 		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
+		//决定是什么容器，判定加载的类型
 		this.webApplicationType = WebApplicationType.deduceFromClasspath();
+		//获取初始化的接口实现类 实现BootstrapRegistryInitializer接口类
 		this.bootstrapRegistryInitializers = new ArrayList<>(
 				getSpringFactoriesInstances(BootstrapRegistryInitializer.class));
+		//获取ApplicationContextInitializer实现类
 		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
+		//获取ApplicationListener监听器实现类
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
+		//获取主加载类
 		this.mainApplicationClass = deduceMainApplicationClass();
 	}
 
